@@ -6,13 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>خطوتي نحو النجاح 🩵</title>
   <style>
+    * { box-sizing: border-box; }
+
     body {
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #e0f7fa, #f3e5f5);
       color: #34495e;
       text-align: center;
       padding: 25px;
+      min-height: 100vh;
     }
+
     .card {
       background: white;
       padding: 25px;
@@ -21,75 +25,167 @@
       margin: 30px auto;
       box-shadow: 0 5px 20px #b0bec5;
     }
+
     h1 { color: #64b5c6; }
+    p { line-height: 1.8; }
+
     input, button, select {
       padding: 12px;
-      margin: 8px;
+      margin: 8px 0;
       border-radius: 12px;
       border: 1px solid #b2dfdb;
       font-size: 16px;
+      max-width: 100%;
     }
+
+    input { width: 100%; }
+
     button {
       background: #80cbc4;
       color: white;
       cursor: pointer;
       border: none;
+      width: 100%;
     }
-    #message { color: #9575cd; font-weight: bold; }
+
+    button:hover { background: #4db6ac; }
+
+    #message {
+      color: #9575cd;
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+
+    #quote { color: #9575cd; }
   </style>
 </head>
+
 <body>
   <div class="card">
-    <h1>خطوتي نحو النجاح 🩵</h1>
-    <p>كل خطوة صغيرة تقربني من حلمي.</p>
+    <h1 id="title">خطوتي نحو النجاح 🩵</h1>
 
-    <label for="lang">Language / اللغة:</label>
+    <p id="subtitle">كل خطوة صغيرة تقربني من حلمي.</p>
+
+    <label id="langLabel" for="lang">اللغة:</label>
+    <br>
+
     <select id="lang" onchange="changeLang()">
       <option value="ar">العربية</option>
       <option value="en">English</option>
     </select>
 
     <h3 id="welcome">أهلاً بكِ في مساحة أحلامكِ ✨</h3>
+
     <p id="question">شنو الهدف ديالك اليوم؟</p>
 
-    <input id="goal" placeholder="مثلاً: مراجعة الرياضيات">
+    <input
+      id="goal"
+      type="text"
+      placeholder="مثلاً: مراجعة الرياضيات"
+    >
 
-    <br>
     <button id="save" onclick="saveGoal()">حفظ الهدف</button>
 
-    <p id="message"></p>
-    <p id="quote">«المستقبل كيتبنى بخطوات صغيرة.»</p>
+    <p id="message" aria-live="polite"></p>
+
+    <p id="quote">المستقبل كيتبنى بخطوات صغيرة. 🌷</p>
   </div>
 
   <script>
-    function saveGoal() {
-      const goal = document.getElementById("goal").value.trim();
-      const message = document.getElementById("message");
-
-      if (!goal) {
-        message.textContent = "كتبي الهدف ديالك أولاً 🩵";
-        return;
+    const translations = {
+      ar: {
+        title: "خطوتي نحو النجاح 🩵",
+        subtitle: "كل خطوة صغيرة تقربني من حلمي.",
+        langLabel: "اللغة:",
+        welcome: "أهلاً بكِ في مساحة أحلامكِ ✨",
+        question: "شنو الهدف ديالك اليوم؟",
+        placeholder: "مثلاً: مراجعة الرياضيات",
+        save: "حفظ الهدف",
+        quote: "المستقبل كيتبنى بخطوات صغيرة. 🌷",
+        empty: "كتبي الهدف ديالك أولاً 🩵",
+        success: "برافو! هدفك اليوم: ",
+        restored: "الهدف المحفوظ: ",
+        error: "ما قدرناش نحفظو الهدف. حاولي مرة أخرى."
+      },
+      en: {
+        title: "My Journey to Success 🩵",
+        subtitle: "Every small step brings me closer to my dream.",
+        langLabel: "Language:",
+        welcome: "Welcome to your dream space ✨",
+        question: "What's your goal today?",
+        placeholder: "Example: Study mathematics",
+        save: "Save goal",
+        quote: "The future is built one small step at a time. 🌷",
+        empty: "Please enter your goal first 🩵",
+        success: "Great! Today's goal: ",
+        restored: "Saved goal: ",
+        error: "Could not save the goal. Please try again."
       }
+    };
 
-      message.textContent = "برافو! هدفك اليوم: " + goal + " 🌷";
+    let currentLang = "ar";
+
+    const goalInput = document.getElementById("goal");
+    const message = document.getElementById("message");
+
+    try {
+      currentLang = localStorage.getItem("studyAppLanguage") || "ar";
+      if (!translations[currentLang]) currentLang = "ar";
+
+      const savedGoal = localStorage.getItem("studyAppGoal");
+      if (savedGoal) goalInput.value = savedGoal;
+    } catch (e) {
+      currentLang = "ar";
     }
 
     function changeLang() {
-      const en = document.getElementById("lang").value === "en";
-      document.documentElement.lang = en ? "en" : "ar";
-      document.documentElement.dir = en ? "ltr" : "rtl";
-      document.getElementById("welcome").textContent =
-        en ? "Welcome to your dream space ✨" : "أهلاً بكِ في مساحة أحلامكِ ✨";
-      document.getElementById("question").textContent =
-        en ? "What's your goal today?" : "شنو الهدف ديالك اليوم؟";
-      document.getElementById("goal").placeholder =
-        en ? "Example: Study mathematics" : "مثلاً: مراجعة الرياضيات";
-      document.getElementById("save").textContent =
-        en ? "Save goal" : "حفظ الهدف";
-      document.getElementById("quote").textContent =
-        en ? "Small steps build the future." : "المستقبل كيتبنى بخطوات صغيرة.";
-      document.getElementById("message").textContent = "";
+      currentLang = document.getElementById("lang").value;
+      const t = translations[currentLang];
+
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir =
+        currentLang === "ar" ? "rtl" : "ltr";
+
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("subtitle").textContent = t.subtitle;
+      document.getElementById("langLabel").textContent = t.langLabel;
+      document.getElementById("welcome").textContent = t.welcome;
+      document.getElementById("question").textContent = t.question;
+      goalInput.placeholder = t.placeholder;
+      document.getElementById("save").textContent = t.save;
+      document.getElementById("quote").textContent = t.quote;
+      message.textContent = "";
+
+      try {
+        localStorage.setItem("studyAppLanguage", currentLang);
+      } catch (e) {}
+    }
+
+    function saveGoal() {
+      const goal = goalInput.value.trim();
+      const t = translations[currentLang];
+
+      if (!goal) {
+        message.textContent = t.empty;
+        return;
+      }
+
+      try {
+        localStorage.setItem("studyAppGoal", goal);
+        message.textContent = t.success + goal + " 🌷";
+      } catch (e) {
+        message.textContent = t.error;
+      }
+    }
+
+    document.getElementById("lang").value = currentLang;
+    changeLang();
+
+    if (goalInput.value.trim()) {
+      message.textContent =
+        translations[currentLang].restored + goalInput.value;
     }
   </script>
 </body>
 </html>
+
