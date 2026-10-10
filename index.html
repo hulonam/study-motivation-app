@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خطوتي نحو النجاح 🩵</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #f3e5f5);
+      color: #34495e;
+      text-align: center;
+      padding: 25px;
+    }
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 25px;
+      max-width: 420px;
+      margin: 30px auto;
+      box-shadow: 0 5px 20px #b0bec5;
+    }
+    h1 { color: #64b5c6; }
+    input, button, select {
+      padding: 12px;
+      margin: 8px;
+      border-radius: 12px;
+      border: 1px solid #b2dfdb;
+      font-size: 16px;
+    }
+    button {
+      background: #80cbc4;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+    #message { color: #9575cd; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>خطوتي نحو النجاح 🩵</h1>
+    <p>كل خطوة صغيرة تقربني من حلمي.</p>
+
+    <label for="lang">Language / اللغة:</label>
+    <select id="lang" onchange="changeLang()">
+      <option value="ar">العربية</option>
+      <option value="en">English</option>
+    </select>
+
+    <h3 id="welcome">أهلاً بكِ في مساحة أحلامكِ ✨</h3>
+    <p id="question">شنو الهدف ديالك اليوم؟</p>
+
+    <input id="goal" placeholder="مثلاً: مراجعة الرياضيات">
+
+    <br>
+    <button id="save" onclick="saveGoal()">حفظ الهدف</button>
+
+    <p id="message"></p>
+    <p id="quote">«المستقبل كيتبنى بخطوات صغيرة.»</p>
+  </div>
+
+  <script>
+    function saveGoal() {
+      const goal = document.getElementById("goal").value.trim();
+      const message = document.getElementById("message");
+
+      if (!goal) {
+        message.textContent = "كتبي الهدف ديالك أولاً 🩵";
+        return;
+      }
+
+      message.textContent = "برافو! هدفك اليوم: " + goal + " 🌷";
+    }
+
+    function changeLang() {
+      const en = document.getElementById("lang").value === "en";
+      document.documentElement.lang = en ? "en" : "ar";
+      document.documentElement.dir = en ? "ltr" : "rtl";
+      document.getElementById("welcome").textContent =
+        en ? "Welcome to your dream space ✨" : "أهلاً بكِ في مساحة أحلامكِ ✨";
+      document.getElementById("question").textContent =
+        en ? "What's your goal today?" : "شنو الهدف ديالك اليوم؟";
+      document.getElementById("goal").placeholder =
+        en ? "Example: Study mathematics" : "مثلاً: مراجعة الرياضيات";
+      document.getElementById("save").textContent =
+        en ? "Save goal" : "حفظ الهدف";
+      document.getElementById("quote").textContent =
+        en ? "Small steps build the future." : "المستقبل كيتبنى بخطوات صغيرة.";
+      document.getElementById("message").textContent = "";
+    }
+  </script>
+</body>
+</html>
