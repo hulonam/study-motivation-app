@@ -2,190 +2,399 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خطوتي نحو النجاح 🩵</title>
-  <style>
-    * { box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#e0f7fa">
+<title>خطوتي نحو النجاح 🩵</title>
 
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #f3e5f5);
-      color: #34495e;
-      text-align: center;
-      padding: 25px;
-      min-height: 100vh;
-    }
-
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 25px;
-      max-width: 420px;
-      margin: 30px auto;
-      box-shadow: 0 5px 20px #b0bec5;
-    }
-
-    h1 { color: #64b5c6; }
-    p { line-height: 1.8; }
-
-    input, button, select {
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 12px;
-      border: 1px solid #b2dfdb;
-      font-size: 16px;
-      max-width: 100%;
-    }
-
-    input { width: 100%; }
-
-    button {
-      background: #80cbc4;
-      color: white;
-      cursor: pointer;
-      border: none;
-      width: 100%;
-    }
-
-    button:hover { background: #4db6ac; }
-
-    #message {
-      color: #9575cd;
-      font-weight: bold;
-      overflow-wrap: anywhere;
-    }
-
-    #quote { color: #9575cd; }
-  </style>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg1:#e0f7fa;--bg2:#f3e5f5;--card:#ffffff;
+  --text:#34495e;--accent:#80cbc4;--purple:#9575cd;
+  --border:#d7e9ed;--muted:#718096;
+}
+body.dark{
+  --bg1:#182438;--bg2:#302541;--card:#253248;
+  --text:#edf3ff;--accent:#648fba;--purple:#c4a7ff;
+  --border:#43516b;--muted:#bdc7da;
+}
+body{
+  margin:0;min-height:100vh;padding:18px;
+  font-family:Arial,sans-serif;color:var(--text);
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  transition:background .25s,color .25s;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header,.panel{
+  max-width:760px;margin:16px auto;padding:20px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:24px;box-shadow:0 6px 22px #65758b18;
+}
+header{text-align:center;position:relative}
+h1{color:var(--purple);font-size:clamp(23px,5vw,32px)}
+p{line-height:1.8}
+.star{color:#e6b95c}
+.top-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+button,.btn{
+  border:0;border-radius:14px;padding:12px 16px;
+  background:var(--accent);color:white;font-weight:bold;
+}
+button:hover{filter:brightness(.96)}
+button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:3px solid var(--purple);outline-offset:2px
+}
+nav{
+  max-width:760px;margin:16px auto;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px
+}
+nav button{padding:13px 4px;font-size:14px}
+nav button.active{background:var(--purple)}
+.panel{margin-top:16px}
+[hidden]{display:none!important}
+label{display:block;text-align:start;margin:12px 0 6px;font-weight:bold}
+input,select{
+  display:block;width:100%;min-width:0;padding:12px;
+  border-radius:12px;border:1px solid var(--border);
+  background:var(--card);color:var(--text)
+}
+form{display:grid;gap:8px}
+.primary{width:100%;margin-top:10px}
+.item{
+  text-align:start;padding:14px;margin:12px 0;
+  border:1px solid var(--border);border-radius:18px;
+  overflow-wrap:anywhere
+}
+.item.done{opacity:.72}
+.item.done .item-title{text-decoration:line-through}
+.item-title{font-weight:bold}
+.item small{display:block;color:var(--muted);margin:8px 0}
+.item-actions{display:flex;gap:8px;flex-wrap:wrap}
+.item-actions button{font-size:13px;padding:9px 12px}
+.secondary{background:var(--purple)}
+.danger{background:#c77991}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat{
+  border:1px solid var(--border);border-radius:18px;
+  padding:18px 8px;text-align:center
+}
+.stat strong{display:block;font-size:27px;color:var(--purple);margin:8px}
+.progress-track{height:14px;background:var(--border);border-radius:20px;overflow:hidden}
+#progressBar{height:100%;width:0;background:var(--accent);transition:width .3s}
+footer{text-align:center;color:var(--muted);padding:20px}
+.empty{color:var(--muted);text-align:center;padding:15px}
+@media(max-width:430px){
+ body{padding:10px}
+ header,.panel{padding:16px}
+ nav{gap:5px}
+ nav button{font-size:12px;padding:12px 2px}
+}
+</style>
 </head>
 
 <body>
-  <div class="card">
-    <h1 id="title">خطوتي نحو النجاح 🩵</h1>
-
-    <p id="subtitle">كل خطوة صغيرة تقربني من حلمي.</p>
-
-    <label id="langLabel" for="lang">اللغة:</label>
-    <br>
-
-    <select id="lang" onchange="changeLang()">
-      <option value="ar">العربية</option>
-      <option value="en">English</option>
-    </select>
-
-    <h3 id="welcome">أهلاً بكِ في مساحة أحلامكِ ✨</h3>
-
-    <p id="question">شنو الهدف ديالك اليوم؟</p>
-
-    <input
-      id="goal"
-      type="text"
-      placeholder="مثلاً: مراجعة الرياضيات"
-    >
-
-    <button id="save" onclick="saveGoal()">حفظ الهدف</button>
-
-    <p id="message" aria-live="polite"></p>
-
-    <p id="quote">المستقبل كيتبنى بخطوات صغيرة. 🌷</p>
+<header>
+  <div class="top-actions">
+    <button id="themeBtn" type="button" onclick="toggleTheme()">🌙 الوضع المظلم</button>
+    <button type="button" onclick="toggleLanguage()" id="langBtn">English</button>
   </div>
+  <h1 id="appTitle">خطوتي نحو النجاح 🩵</h1>
+  <p id="subtitle">كل خطوة صغيرة تقربني من حلمي.</p>
+  <p id="welcome">أهلاً بكِ في مساحة أحلامكِ ✨</p>
+  <span class="star">✦ ★ ✧ ★ ✦</span>
+</header>
 
-  <script>
-    const translations = {
-      ar: {
-        title: "خطوتي نحو النجاح 🩵",
-        subtitle: "كل خطوة صغيرة تقربني من حلمي.",
-        langLabel: "اللغة:",
-        welcome: "أهلاً بكِ في مساحة أحلامكِ ✨",
-        question: "شنو الهدف ديالك اليوم؟",
-        placeholder: "مثلاً: مراجعة الرياضيات",
-        save: "حفظ الهدف",
-        quote: "المستقبل كيتبنى بخطوات صغيرة. 🌷",
-        empty: "كتبي الهدف ديالك أولاً 🩵",
-        success: "برافو! هدفك اليوم: ",
-        restored: "الهدف المحفوظ: ",
-        error: "ما قدرناش نحفظو الهدف. حاولي مرة أخرى."
-      },
-      en: {
-        title: "My Journey to Success 🩵",
-        subtitle: "Every small step brings me closer to my dream.",
-        langLabel: "Language:",
-        welcome: "Welcome to your dream space ✨",
-        question: "What's your goal today?",
-        placeholder: "Example: Study mathematics",
-        save: "Save goal",
-        quote: "The future is built one small step at a time. 🌷",
-        empty: "Please enter your goal first 🩵",
-        success: "Great! Today's goal: ",
-        restored: "Saved goal: ",
-        error: "Could not save the goal. Please try again."
-      }
-    };
+<nav aria-label="التنقل">
+  <button class="active" data-page="home" onclick="showPage('home')" id="navHome">🏠 الرئيسية</button>
+  <button data-page="goals" onclick="showPage('goals')" id="navGoals">⭐ أهدافي</button>
+  <button data-page="reminders" onclick="showPage('reminders')" id="navReminders">⏰ التذكيرات</button>
+  <button data-page="progress" onclick="showPage('progress')" id="navProgress">📈 تقدمي</button>
+</nav>
 
-    let currentLang = "ar";
+<main>
+<section class="panel" id="page-home">
+  <h2 id="homeHeading">مساحتك اليومية ✨</h2>
+  <p id="question">شنو الهدف ديالك اليوم؟</p>
+  <form id="goalForm">
+    <label for="goalInput" id="goalLabel">الهدف</label>
+    <input id="goalInput" required maxlength="180" placeholder="مثلاً: مراجعة الرياضيات">
+    <label for="goalTime" id="goalTimeLabel">وقت الهدف (اختياري)</label>
+    <input id="goalTime" type="datetime-local">
+    <button class="primary" id="saveGoalBtn">⭐ حفظ الهدف</button>
+  </form>
+  <p id="homeMessage" aria-live="polite"></p>
+  <hr style="border:0;border-top:1px solid var(--border)">
+  <h3 id="todayHeading">أهدافك</h3>
+  <div id="homeGoals"></div>
+  <p id="quote">المستقبل كيتبنى بخطوات صغيرة. 🌷</p>
+</section>
 
-    const goalInput = document.getElementById("goal");
-    const message = document.getElementById("message");
+<section class="panel" id="page-goals" hidden>
+  <h2 id="goalsHeading">⭐ أهدافي</h2>
+  <p id="goalsIntro">كل هدف صغير هو خطوة نحو حلمك.</p>
+  <div id="goalList"></div>
+</section>
 
-    try {
-      currentLang = localStorage.getItem("studyAppLanguage") || "ar";
-      if (!translations[currentLang]) currentLang = "ar";
+<section class="panel" id="page-reminders" hidden>
+  <h2 id="remindersHeading">⏰ التذكيرات</h2>
+  <p id="reminderIntro">نظمي وقتك باش ما تنسايش المهام المهمة.</p>
+  <form id="reminderForm">
+    <label for="reminderText" id="reminderTextLabel">شنو خاصك تتذكري؟</label>
+    <input id="reminderText" required maxlength="180" placeholder="مثلاً: مراجعة درس الفيزياء">
+    <label for="reminderTime" id="reminderTimeLabel">التاريخ والساعة</label>
+    <input id="reminderTime" type="datetime-local" required>
+    <button class="primary" id="addReminderBtn">⏰ إضافة تذكير</button>
+  </form>
+  <p id="reminderMessage" aria-live="polite"></p>
+  <div id="reminderList"></div>
+  <p id="reminderNote"></p>
+</section>
 
-      const savedGoal = localStorage.getItem("studyAppGoal");
-      if (savedGoal) goalInput.value = savedGoal;
-    } catch (e) {
-      currentLang = "ar";
-    }
+<section class="panel" id="page-progress" hidden>
+  <h2 id="progressHeading">📈 تقدمي</h2>
+  <div class="stats">
+    <div class="stat"><span id="totalLabel">مجموع الأهداف</span><strong id="totalCount">0</strong></div>
+    <div class="stat"><span id="doneLabel">أهداف مكتملة</span><strong id="doneCount">0</strong></div>
+  </div>
+  <h3 id="progressLabel">نسبة الإنجاز</h3>
+  <div class="progress-track"><div id="progressBar"></div></div>
+  <p id="progressText" aria-live="polite">0%</p>
+  <p id="encouragement">كل خطوة صغيرة تستحق الاحتفال! ⭐</p>
+  <button class="secondary" onclick="showPage('goals')" id="viewGoalsBtn">عرض أهدافي</button>
+</section>
+</main>
 
-    function changeLang() {
-      currentLang = document.getElementById("lang").value;
-      const t = translations[currentLang];
+<footer id="footerText">خطوة صغيرة اليوم، حلم أقرب غداً. 🩵</footer>
 
-      document.documentElement.lang = currentLang;
-      document.documentElement.dir =
-        currentLang === "ar" ? "rtl" : "ltr";
+<script>
+const $ = id => document.getElementById(id);
 
-      document.getElementById("title").textContent = t.title;
-      document.getElementById("subtitle").textContent = t.subtitle;
-      document.getElementById("langLabel").textContent = t.langLabel;
-      document.getElementById("welcome").textContent = t.welcome;
-      document.getElementById("question").textContent = t.question;
-      goalInput.placeholder = t.placeholder;
-      document.getElementById("save").textContent = t.save;
-      document.getElementById("quote").textContent = t.quote;
-      message.textContent = "";
+const words = {
+ ar:{
+  title:"خطوتي نحو النجاح 🩵",subtitle:"كل خطوة صغيرة تقربني من حلمي.",
+  welcome:"أهلاً بكِ في مساحة أحلامكِ ✨",dark:"🌙 الوضع المظلم",light:"☀️ الوضع الفاتح",
+  home:"🏠 الرئيسية",goals:"⭐ أهدافي",reminders:"⏰ التذكيرات",progress:"📈 تقدمي",
+  homeHeading:"مساحتك اليومية ✨",question:"شنو الهدف ديالك اليوم؟",
+  goalLabel:"الهدف",goalPlaceholder:"مثلاً: مراجعة الرياضيات",
+  goalTime:"وقت الهدف (اختياري)",saveGoal:"⭐ حفظ الهدف",
+  today:"أهدافك",quote:"المستقبل كيتبنى بخطوات صغيرة. 🌷",
+  goalsIntro:"كل هدف صغير هو خطوة نحو حلمك.",emptyGoals:"ما عندك حتى هدف دابا. زيدي أول هدف ديالك! 🩵",
+  reminderHeading:"⏰ التذكيرات",reminderIntro:"نظمي وقتك باش ما تنسايش المهام المهمة.",
+  reminderText:"شنو خاصك تتذكري؟",reminderPlaceholder:"مثلاً: مراجعة درس الفيزياء",
+  reminderTime:"التاريخ والساعة",addReminder:"⏰ إضافة تذكير",
+  emptyReminders:"ما عندك حتى تذكير دابا.",reminderNote:"التذكيرات كتخدم والصفحة محلولة. باش توصلك إشعارات، خاصك تسمحي بها للمتصفح.",
+  total:"مجموع الأهداف",done:"أهداف مكتملة",progressLabel:"نسبة الإنجاز",
+  encouragement:"كل خطوة صغيرة تستحق الاحتفال! ⭐",viewGoals:"عرض أهدافي",
+  footer:"خطوة صغيرة اليوم، حلم أقرب غداً. 🩵",
+  empty:"كتبي الهدف ديالك أولاً 🩵",saved:"برافو! تزاد الهدف ديالك ⭐",
+  addedReminder:"تزاد التذكير بنجاح ⏰",completed:"✅ اكتمل",undo:"↩️ تراجع",
+  remove:"🗑️ حذف",edit:"✏️ تعديل",due:"الموعد",noTime:"بلا وقت محدد",
+  notification:"⏰ حان وقت: ",deleted:"تم الحذف.",permission:"فعّلي إشعارات المتصفح إذا بغيتي توصلك تنبيهات.",
+  invalidTime:"اختاري وقتاً صحيحاً في المستقبل.",percent:"نسبة الإنجاز",
+  language:"English"
+ },
+ en:{
+  title:"My Steps to Success 🩵",subtitle:"Every small step brings me closer to my dream.",
+  welcome:"Welcome to your dream space ✨",dark:"🌙 Dark mode",light:"☀️ Light mode",
+  home:"🏠 Home",goals:"⭐ My Goals",reminders:"⏰ Reminders",progress:"📈 Progress",
+  homeHeading:"Your Daily Space ✨",question:"What's your goal today?",
+  goalLabel:"Goal",goalPlaceholder:"Example: Study mathematics",
+  goalTime:"Goal time (optional)",saveGoal:"⭐ Save goal",
+  today:"Your goals",quote:"The future is built one small step at a time. 🌷",
+  goalsIntro:"Every small goal is a step toward your dream.",emptyGoals:"No goals yet. Add your first goal! 🩵",
+  reminderHeading:"⏰ Reminders",reminderIntro:"Organize your time and remember important tasks.",
+  reminderText:"What do you need to remember?",reminderPlaceholder:"Example: Review physics",
+  reminderTime:"Date and time",addReminder:"⏰ Add reminder",
+  emptyReminders:"No reminders yet.",reminderNote:"Reminders work while this page is open. Allow browser notifications to receive alerts.",
+  total:"Total goals",done:"Completed goals",progressLabel:"Completion rate",
+  encouragement:"Every small step deserves a celebration! ⭐",viewGoals:"View my goals",
+  footer:"A small step today, a dream closer tomorrow. 🩵",
+  empty:"Please enter a goal first 🩵",saved:"Great! Your goal was added ⭐",
+  addedReminder:"Reminder added successfully ⏰",completed:"✅ Completed",undo:"↩️ Undo",
+  remove:"🗑️ Delete",edit:"✏️ Edit",due:"Due",noTime:"No time set",
+  notification:"⏰ It's time for: ",deleted:"Deleted.",permission:"Enable browser notifications if you want alerts.",
+  invalidTime:"Choose a valid future time.",percent:"Completion rate",
+  language:"العربية"
+ }
+};
 
-      try {
-        localStorage.setItem("studyAppLanguage", currentLang);
-      } catch (e) {}
-    }
+let lang = "ar";
+let goals = [];
+let reminders = [];
+let dark = false;
+let notified = [];
 
-    function saveGoal() {
-      const goal = goalInput.value.trim();
-      const t = translations[currentLang];
-
-      if (!goal) {
-        message.textContent = t.empty;
-        return;
-      }
-
-      try {
-        localStorage.setItem("studyAppGoal", goal);
-        message.textContent = t.success + goal + " 🌷";
-      } catch (e) {
-        message.textContent = t.error;
-      }
-    }
-
-    document.getElementById("lang").value = currentLang;
-    changeLang();
-
-    if (goalInput.value.trim()) {
-      message.textContent =
-        translations[currentLang].restored + goalInput.value;
-    }
-  </script>
+function loadData(){
+ try{
+  goals = JSON.parse(localStorage.getItem("ss_goals") || "[]");
+  reminders = JSON.parse(localStorage.getItem("ss_reminders") || "[]");
+  lang = localStorage.getItem("studyAppLanguage") || "ar";
+  dark = localStorage.getItem("ss_dark") === "true";
+  if(!Array.isArray(goals)) goals = [];
+  if(!Array.isArray(reminders)) reminders = [];
+  if(!["ar","en"].includes(lang)) lang = "ar";
+ }catch(e){goals=[];reminders=[];lang="ar";}
+}
+function persist(){
+ try{
+  localStorage.setItem("ss_goals",JSON.stringify(goals));
+  localStorage.setItem("ss_reminders",JSON.stringify(reminders));
+  localStorage.setItem("studyAppLanguage",lang);
+  localStorage.setItem("ss_dark",String(dark));
+ }catch(e){}
+}
+function t(){return words[lang];}
+function showPage(name){
+ ["home","goals","reminders","progress"].forEach(p=>{
+  $("page-"+p).hidden = p!==name;
+ });
+ document.querySelectorAll("nav button").forEach(b=>{
+  b.classList.toggle("active",b.dataset.page===name);
+ });
+}
+function applyLanguage(){
+ const w=t();
+ document.documentElement.lang=lang;
+ document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+ const map={
+  appTitle:"title",subtitle:"subtitle",welcome:"welcome",
+  navHome:"home",navGoals:"goals",navReminders:"reminders",navProgress:"progress",
+  homeHeading:"homeHeading",question:"question",goalLabel:"goalLabel",
+  goalTimeLabel:"goalTime",saveGoalBtn:"saveGoal",todayHeading:"today",
+  quote:"quote",goalsHeading:"goals",goalsIntro:"goalsIntro",
+  remindersHeading:"reminderHeading",reminderIntro:"reminderIntro",
+  reminderTextLabel:"reminderText",reminderTimeLabel:"reminderTime",
+  addReminderBtn:"addReminder",reminderNote:"reminderNote",
+  totalLabel:"total",doneLabel:"done",progressHeading:"progress",
+  progressLabel:"progressLabel",encouragement:"encouragement",
+  viewGoalsBtn:"viewGoals",footerText:"footer"
+ };
+ Object.entries(map).forEach(([id,key])=>$(id).textContent=w[key]);
+ $("goalInput").placeholder=w.goalPlaceholder;
+ $("reminderText").placeholder=w.reminderPlaceholder;
+ $("langBtn").textContent=w.language;
+ $("themeBtn").textContent=dark?w.light:w.dark;
+ document.body.classList.toggle("dark",dark);
+ document.querySelector('nav').setAttribute("aria-label",lang==="ar"?"التنقل":"Navigation");
+ render();
+}
+function toggleLanguage(){
+ lang=lang==="ar"?"en":"ar";
+ persist();applyLanguage();
+}
+function toggleTheme(){
+ dark=!dark;persist();applyLanguage();
+}
+function safeDate(value){
+ if(!value)return "";
+ const d=new Date(value);
+ if(Number.isNaN(d.getTime()))return "";
+ return d.toLocaleString(lang==="ar"?"ar-MA":"en-GB");
+}
+function makeItem(item,type){
+ const w=t();
+ const el=document.createElement("article");
+ el.className="item"+(item.done?" done":"");
+ const title=document.createElement("div");
+ title.className="item-title";
+ title.textContent=(item.done?"⭐ ":"✦ ")+item.text;
+ el.append(title);
+ const time=document.createElement("small");
+ time.textContent=(type==="goal"?w.due+": ":w.due+": ")+(item.time?safeDate(item.time):w.noTime);
+ el.append(time);
+ const actions=document.createElement("div");
+ actions.className="item-actions";
+ if(type==="goal"){
+  const done=document.createElement("button");
+  done.className="secondary";
+  done.textContent=item.done?w.undo:w.completed;
+  done.onclick=()=>{item.done=!item.done;persist();render();};
+  actions.append(done);
+ }
+ const edit=document.createElement("button");
+ edit.textContent=w.edit;
+ edit.onclick=()=>{
+  const value=prompt(lang==="ar"?"عدّلي النص:":"Edit text:",item.text);
+  if(value&&value.trim()){item.text=value.trim();persist();render();}
+ };
+ actions.append(edit);
+ const del=document.createElement("button");
+ del.className="danger";del.textContent=w.remove;
+ del.onclick=()=>{
+  if(!confirm(lang==="ar"?"واش متأكدة من الحذف؟":"Are you sure you want to delete this?"))return;
+  if(type==="goal")goals=goals.filter(x=>x.id!==item.id);
+  else reminders=reminders.filter(x=>x.id!==item.id);
+  persist();render();
+ };
+ actions.append(del);el.append(actions);
+ return el;
+}
+function fillList(container,items,type,emptyText){
+ container.replaceChildren();
+ if(!items.length){
+  const p=document.createElement("p");p.className="empty";p.textContent=emptyText;
+  container.append(p);return;
+ }
+ [...items].sort((a,b)=>(a.time||"").localeCompare(b.time||"")).forEach(item=>{
+  container.append(makeItem(item,type));
+ });
+}
+function render(){
+ const w=t();
+ fillList($("homeGoals"),goals,w.goal, w.emptyGoals);
+ fillList($("goalList"),goals,w.goal,w.emptyGoals);
+ fillList($("reminderList"),reminders,w.reminder,w.emptyReminders);
+ const done=goals.filter(g=>g.done).length;
+ const total=goals.length;
+ const percent=total?Math.round(done/total*100):0;
+ $("totalCount").textContent=total;
+ $("doneCount").textContent=done;
+ $("progressBar").style.width=percent+"%";
+ $("progressText").textContent=percent+"%";
+}
+$("goalForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const text=$("goalInput").value.trim();
+ if(!text){$("homeMessage").textContent=t().empty;return;}
+ goals.push({id:Date.now().toString(),text,time:$("goalTime").value||"",done:false});
+ persist();$("goalInput").value="";$("goalTime").value="";
+ $("homeMessage").textContent=t().saved;
+ render();
+});
+$("reminderForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const text=$("reminderText").value.trim();
+ const time=$("reminderTime").value;
+ if(!text)return;
+ if(!time||new Date(time).getTime()<=Date.now()){
+  $("reminderMessage").textContent=t().invalidTime;return;
+ }
+ reminders.push({id:Date.now().toString(),text,time,done:false});
+ persist();$("reminderText").value="";$("reminderTime").value="";
+ $("reminderMessage").textContent=t().addedReminder;
+ if("Notification" in window && Notification.permission==="default"){
+  try{await Notification.requestPermission();}catch(e){}
+ }
+ render();
+});
+function checkReminders(){
+ const now=Date.now();
+ reminders.forEach(r=>{
+  if(!r.time||notified.includes(r.id))return;
+  if(new Date(r.time).getTime()<=now){
+   notified.push(r.id);
+   if("Notification" in window && Notification.permission==="granted"){
+    try{new Notification(t().notification+r.text);}catch(e){}
+   }else{
+    $("reminderMessage").textContent=t().notification+r.text;
+   }
+  }
+ });
+}
+loadData();
+applyLanguage();
+setInterval(checkReminders,15000);
+</script>
 </body>
 </html>
-
